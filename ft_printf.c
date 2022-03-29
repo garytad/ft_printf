@@ -61,8 +61,13 @@ int	ft_print_string(va_list args)
 
 	i = 0;
 	str = va_arg(args, char *);
-	while (str[i])
-		write (1, &str[i++], 1);
+	if (!str)
+		i = write(1, "(null)", 6);
+	else
+	{
+		while (str[i])
+			write (1, &str[i++], 1);
+	}
 	return (i);
 }
 
@@ -111,10 +116,10 @@ int	format_eval(const char c, va_list args)
 		return(ft_print_string(args));
 	if (c == 'd')
 		return(ft_print_decimal(args));
-	if (c == '%')
-		return(ft_putchar('%'));
 	if (c == 'u')
 		return(ft_print_uint(args));
+	if (c == '%')
+		return(ft_putchar('%'));
 	return (0);
 }
 
@@ -157,7 +162,7 @@ int	main()
 {
 	int	i;
 
-	i = ft_printf("%u", -1);
+	i = ft_printf("%%", 4294967295);
 	ft_printf("char printed = %d", i);
 	return (0);
 }
