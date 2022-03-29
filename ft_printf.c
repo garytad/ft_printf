@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 
+/* print string from va list */
 int	ft_print_string(va_list *args)
 {
 	char	*str;
