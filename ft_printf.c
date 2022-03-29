@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <unistd.h>
+#include <stdio.h>
 
 /* print string from va list */
 
@@ -8,12 +9,12 @@ int	ft_putchar(char	c)
 	int	i;
 	
 	i = write(1, &c, 1);
-	if (i > 0)
-		return (i);
-	return (0);
+	if (i < 0)
+		return (0);
+	return (i);
 }
 
-void	ft_putnbr(int n)
+int	ft_putnbr(int n)
 {
 	int	i;
 
@@ -35,6 +36,7 @@ void	ft_putnbr(int n)
 		if (n >= 0 && n <= 9)
 			i += ft_putchar(n + '0');
 	}
+	return (i);
 }
 
 int	ft_print_string(va_list args)
@@ -57,17 +59,19 @@ int	ft_print_char(va_list args)
 
 	c = (char)va_arg(args, int);
 	i = write(1, &c, 1);
-	if (i > 0)
-		return (i);
-	return (0);
+	if (i < 0)
+		return (0);
+	return (i);
 }
 
 int	ft_print_decimal(va_list args)
 {
 	int	c;
+	int	i;
 
 	c = va_arg(args, int);
-	ft_putnbr(c);
+	i = ft_putnbr(c);
+	return (i);
 }
 /* evaluate format specifier */
 int	format_eval(const char c, va_list args)
@@ -85,6 +89,7 @@ int	format_eval(const char c, va_list args)
 int	ft_vprintf(const char *format, va_list args)
 {
 	int	i;
+	int	ret;
 
 	i = 0;
 	while (format[i])
@@ -94,14 +99,14 @@ int	ft_vprintf(const char *format, va_list args)
 			i++;
 			if (format[i])
 			{
-				format_eval(format[i], args);
+				ret = format_eval(format[i], args);
 			}
 		}
 		else
-			write(1, &format[i], 1);
+			ret += write(1, &format[i], 1);
 		i++;
 	}
-	return (i);
+	return (ret);
 }
 
 /* printf format conversion function */
@@ -118,6 +123,6 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	ft_printf("acccbcdef%s%c%d", "abd", '1', 12);
+	ft_printf("acccbcdef%s%c%d", "abd", '1', 0012);
 	return (0);
 }
