@@ -125,7 +125,7 @@ int	main()
 {
 	int	i;
 
-	i = ft_printf("acccbcdef%s%c%d", "abc", 'd', 1222);
+	i = ft_printf("%s%c%d", "abc", 'd', 42);
 	ft_printf("char printed = %d", i);
 	return (0);
 }
