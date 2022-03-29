@@ -29,8 +29,8 @@ int	ft_putnbr(int n)
 		}
 		if (n >= 10)
 		{
-			ft_putnbr(n / 10);
-			ft_putnbr(n % 10);
+			i +=ft_putnbr(n / 10);
+			i += ft_putnbr(n % 10);
 		}
 		if (n >= 0 && n <= 9)
 			i += ft_putchar(n + '0');
@@ -93,15 +93,14 @@ int	ft_vprintf(const char *format, va_list args)
 	int	ret;
 
 	i = 0;
+	ret = 0;
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
 			if (format[i])
-			{
-				ret = format_eval(format[i], args);
-			}
+				ret += format_eval(format[i], args);
 		}
 		else
 			ret += write(1, &format[i], 1);
@@ -124,6 +123,9 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	ft_printf("acccbcdef%s%c%d", "abc", 'dd', 1222);
+	int	i;
+
+	i = ft_printf("acccbcdef%s%c%d", "abc", 'd', 1222);
+	ft_printf("char printed = %d", i);
 	return (0);
 }
