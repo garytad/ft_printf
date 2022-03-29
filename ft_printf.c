@@ -2,18 +2,17 @@
 #include <unistd.h>
 #include <stdio.h>
 
-/* print string from va list */
-
+/* print char */
 int	ft_putchar(char	c)
 {
 	int	i;
-	
 	i = write(1, &c, 1);
 	if (i < 0)
 		return (0);
 	return (i);
 }
 
+/* print int number */
 int	ft_putnbr(int n)
 {
 	int	i;
@@ -22,7 +21,7 @@ int	ft_putnbr(int n)
 	if (n == -2147483648)
 		i = write(1, "-2147483648", 11);
 	else
-	{	
+	{
 		if (n < 0)
 		{
 			i += ft_putchar('-');
@@ -39,6 +38,7 @@ int	ft_putnbr(int n)
 	return (i);
 }
 
+/* print string from va list */
 int	ft_print_string(va_list args)
 {
 	char	*str;
@@ -59,11 +59,12 @@ int	ft_print_char(va_list args)
 
 	c = (char)va_arg(args, int);
 	i = write(1, &c, 1);
-	if (i < 0)
-		return (0);
-	return (i);
+	if (i > 0)
+		return (i);
+	return (0);
 }
 
+/* print decimal from va list */
 int	ft_print_decimal(va_list args)
 {
 	int	c;
@@ -123,6 +124,6 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	ft_printf("acccbcdef%s%c%d", "abd", '1', 0012);
+	ft_printf("acccbcdef%s%c%d", "abc", 'd', 12);
 	return (0);
 }
