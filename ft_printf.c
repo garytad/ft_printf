@@ -38,6 +38,21 @@ int	ft_putnbr(int n)
 	return (i);
 }
 
+int	ft_putuint(unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	if (n >= 10)
+	{
+		i +=ft_putnbr(n / 10);
+		i += ft_putnbr(n % 10);
+	}
+	if (n >= 0 && n <= 9)
+		i += ft_putchar(n + '0');
+	return (i);
+}
+
 /* print string from va list */
 int	ft_print_string(va_list args)
 {
@@ -74,6 +89,19 @@ int	ft_print_decimal(va_list args)
 	i = ft_putnbr(c);
 	return (i);
 }
+
+int	ft_print_uint(va_list args)
+{
+	unsigned int	c;
+	int				i;
+
+	i = 0;
+	c = va_arg(args, unsigned int);
+	if (c < 0)
+		c += 4294967295;
+	i = ft_putuint(c);
+	return(i);
+}
 /* evaluate format specifier */
 int	format_eval(const char c, va_list args)
 {
@@ -83,6 +111,10 @@ int	format_eval(const char c, va_list args)
 		return(ft_print_string(args));
 	if (c == 'd')
 		return(ft_print_decimal(args));
+	if (c == '%')
+		return(ft_putchar('%'));
+	if (c == 'u')
+		return(ft_print_uint(args));
 	return (0);
 }
 
@@ -125,7 +157,7 @@ int	main()
 {
 	int	i;
 
-	i = ft_printf("%s%c%d", "abc", 'd', 42);
+	i = ft_printf("%u", -1);
 	ft_printf("char printed = %d", i);
 	return (0);
 }
