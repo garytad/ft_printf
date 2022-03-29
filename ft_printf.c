@@ -124,6 +124,6 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	ft_printf("acccbcdef%s%c%d", "abc", 'd', 12);
+	ft_printf("acccbcdef%s%c%d", "abc", 'dd', 1222);
 	return (0);
 }
