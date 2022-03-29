@@ -11,15 +11,20 @@ int	ft_print_string(va_list *args)
 	str = va_arg(*args, char *);
 	while (str[i])
 		write (1, &str[i++], 1);
+	return (i);
 }
 
 /* print char from va list */
 int	ft_print_char(va_list *args)
 {
 	char	c;
+	int		i;
 
 	c = (char)va_arg(*args, int);
-	write(1, &c, 1);
+	i = write(1, &c, 1);
+	if (i > 0)
+		return (i);
+	return (0);
 }
 
 /* evaluate format specifier */
