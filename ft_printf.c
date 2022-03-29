@@ -2,38 +2,83 @@
 #include <unistd.h>
 
 /* print string from va list */
-int	ft_print_string(va_list *args)
+
+int	ft_putchar(char	c)
 {
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = va_arg(*args, char *);
-	while (str[i])
-		write (1, &str[i++], 1);
-	return (i);
-}
-
-/* print char from va list */
-int	ft_print_char(va_list *args)
-{
-	char	c;
-	int		i;
-
-	c = (char)va_arg(*args, int);
+	int	i;
+	
 	i = write(1, &c, 1);
 	if (i > 0)
 		return (i);
 	return (0);
 }
 
+void	ft_putnbr(int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == -2147483648)
+		i = write(1, "-2147483648", 11);
+	else
+	{	
+		if (n < 0)
+		{
+			i += ft_putchar('-');
+			n = -n;
+		}
+		if (n >= 10)
+		{
+			ft_putnbr(n / 10);
+			ft_putnbr(n % 10);
+		}
+		if (n >= 0 && n <= 9)
+			i += ft_putchar(n + '0');
+	}
+}
+
+int	ft_print_string(va_list args)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = va_arg(args, char *);
+	while (str[i])
+		write (1, &str[i++], 1);
+	return (i);
+}
+
+/* print char from va list */
+int	ft_print_char(va_list args)
+{
+	char	c;
+	int		i;
+
+	c = (char)va_arg(args, int);
+	i = write(1, &c, 1);
+	if (i > 0)
+		return (i);
+	return (0);
+}
+
+int	ft_print_decimal(va_list args)
+{
+	int	c;
+
+	c = va_arg(args, int);
+	ft_putnbr(c);
+}
 /* evaluate format specifier */
-int	format_eval(const char c, va_list *args)
+int	format_eval(const char c, va_list args)
 {
 	if (c == 'c')
 		return(ft_print_char(args));
 	if (c == 's')
 		return(ft_print_string(args));
+	if (c == 'd')
+		return(ft_print_decimal(args));
+	return (0);
 }
 
 /* check for format conversion and print string */
@@ -49,7 +94,7 @@ int	ft_vprintf(const char *format, va_list args)
 			i++;
 			if (format[i])
 			{
-				format_eval(format[i], &args);
+				format_eval(format[i], args);
 			}
 		}
 		else
@@ -73,6 +118,6 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	ft_printf("acccbcdef%s%c", "abd", '1');
+	ft_printf("acccbcdef%s%c%d", "abd", '1', 12);
 	return (0);
 }
