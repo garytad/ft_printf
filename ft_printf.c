@@ -55,20 +55,37 @@ int	ft_putuint(unsigned int n)
 }
 
 /* print unsigned int in hex format */
-int	ft_put_hex(unsigned int n)
+int	ft_put_hexlow(unsigned int n)
 {
 	int	i;
 
 	i = 0;
 	if (n >= 16)
 	{
-		i += ft_put_hex(n / 16);
-		i += ft_put_hex(n % 16);
+		i += ft_put_hexlow(n / 16);
+		i += ft_put_hexlow(n % 16);
 	}
 	else if (n >= 0 && n < 10)
 		i += ft_putchar(n + '0');
 	else if (n >= 10 && n < 16)
 		i += ft_putchar(n + 87);
+	return (i);
+}
+
+int	ft_put_hexup(unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	if (n >= 16)
+	{
+		i += ft_put_hexup(n / 16);
+		i += ft_put_hexup(n % 16);
+	}
+	else if (n >= 0 && n < 10)
+		i += ft_putchar(n + '0');
+	else if (n >= 10 && n < 16)
+		i += ft_putchar(n + 55);
 	return (i);
 }
 
@@ -125,15 +142,26 @@ int	ft_print_uint(va_list args)
 	return(i);
 }
 
-int	ft_print_hex(va_list args)
+int	ft_print_hexlow(va_list args)
 {
 	unsigned int	n;
 	int				i;
 
 	n = va_arg(args, unsigned int);
-	i = ft_put_hex(n);
+	i = ft_put_hexlow(n);
 	return (i);
 }
+
+int	ft_print_hexup(va_list args)
+{
+	unsigned int	n;
+	int				i;
+
+	n = va_arg(args, unsigned int);
+	i = ft_put_hexup(n);
+	return (i);
+}
+
 /* evaluate format specifier */
 int	format_eval(const char c, va_list args)
 {
@@ -146,7 +174,9 @@ int	format_eval(const char c, va_list args)
 	if (c == 'u')
 		return (ft_print_uint(args));
 	if (c == 'x')
-		return (ft_print_hex(args));
+		return (ft_print_hexlow(args));
+	if (c == 'X')
+		return (ft_print_hexup(args));
 	if (c == '%')
 		return(ft_putchar('%'));
 	return (0);
@@ -192,6 +222,6 @@ int	main()
 	unsigned int	i;
 
 	i = -1;
-	ft_printf("%x", -15);
+	ft_printf("%X", -15);
 	return (0);
 }
