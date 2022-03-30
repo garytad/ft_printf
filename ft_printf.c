@@ -69,6 +69,7 @@ int	ft_put_hex(unsigned int n)
 		i += ft_putchar(n + '0');
 	else if (n >= 10 && n < 16)
 		i += ft_putchar(n + 87);
+	return (i);
 }
 
 /* print string from va list */
