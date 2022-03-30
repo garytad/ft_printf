@@ -29,7 +29,7 @@ int	ft_putnbr(int n)
 		}
 		if (n >= 10)
 		{
-			i +=ft_putnbr(n / 10);
+			i += ft_putnbr(n / 10);
 			i += ft_putnbr(n % 10);
 		}
 		if (n >= 0 && n <= 9)
@@ -38,6 +38,7 @@ int	ft_putnbr(int n)
 	return (i);
 }
 
+/* print unsigned int */
 int	ft_putuint(unsigned int n)
 {
 	int	i;
@@ -45,12 +46,29 @@ int	ft_putuint(unsigned int n)
 	i = 0;
 	if (n >= 10)
 	{
-		i +=ft_putnbr(n / 10);
-		i += ft_putnbr(n % 10);
+		i += ft_putuint(n / 10);
+		i += ft_putuint(n % 10);
 	}
 	if (n >= 0 && n <= 9)
 		i += ft_putchar(n + '0');
 	return (i);
+}
+
+/* print unsigned int in hex format */
+int	ft_put_hex(unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	if (n >= 16)
+	{
+		i += ft_put_hex(n / 16);
+		i += ft_put_hex(n % 16);
+	}
+	else if (n >= 0 && n < 10)
+		i += ft_putchar(n + '0');
+	else if (n >= 10 && n < 16)
+		i += ft_putchar(n + 87);
 }
 
 /* print string from va list */
@@ -102,22 +120,32 @@ int	ft_print_uint(va_list args)
 
 	i = 0;
 	c = va_arg(args, unsigned int);
-	if (c < 0)
-		c += 4294967295;
 	i = ft_putuint(c);
 	return(i);
+}
+
+int	ft_print_hex(va_list args)
+{
+	unsigned int	n;
+	int				i;
+
+	n = va_arg(args, unsigned int);
+	i = ft_put_hex(n);
+	return (i);
 }
 /* evaluate format specifier */
 int	format_eval(const char c, va_list args)
 {
 	if (c == 'c')
-		return(ft_print_char(args));
+		return (ft_print_char(args));
 	if (c == 's')
-		return(ft_print_string(args));
+		return (ft_print_string(args));
 	if (c == 'd')
-		return(ft_print_decimal(args));
+		return (ft_print_decimal(args));
 	if (c == 'u')
-		return(ft_print_uint(args));
+		return (ft_print_uint(args));
+	if (c == 'x')
+		return (ft_print_hex(args));
 	if (c == '%')
 		return(ft_putchar('%'));
 	return (0);
@@ -160,9 +188,9 @@ int	ft_printf(const char *format, ...)
 
 int	main()
 {
-	int	i;
+	unsigned int	i;
 
-	i = ft_printf("%%", 4294967295);
-	ft_printf("char printed = %d", i);
+	i = -1;
+	ft_printf("%x", -15);
 	return (0);
 }
