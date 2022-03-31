@@ -24,6 +24,30 @@ int	ft_putchar(char	c)
 	return (i);
 }
 
+int	put_nbr(int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == -2147483648)
+		i = write(1, "-2147483648", 11);
+	else
+	{
+		if (n < 0)
+		{
+			i += write(1, "-", 1);
+			n = -n;
+		}
+		if (n >= 10)
+		{
+			i += put_nbr((n / 10));
+			i += put_nbr((n % 10));
+		}
+		if (n >= 0 && n <= 9)
+			i += ft_putchar(n + '0');
+	}
+}
+
 int	put_nbr_base(unsigned long n, char *base)
 {
 	int				i;
@@ -80,7 +104,7 @@ int	ft_print_decimal(va_list args)
 
 	i = 0;
 	c = va_arg(args, int);
-	i = put_nbr_base(c, "0123456789");
+	i = put_nbr(c);
 	return (i);
 }
 
