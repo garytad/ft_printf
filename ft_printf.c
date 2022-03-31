@@ -30,6 +30,7 @@ int	put_nbr_base(unsigned long n, char *base)
 	unsigned long	base_len;
 
 	base_len = ft_strlen(base);
+	i = 0;
 	if (n >= base_len)
 	{
 		i += put_nbr_base(n / base_len, base);
