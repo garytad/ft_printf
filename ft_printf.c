@@ -2,6 +2,18 @@
 #include <unistd.h>
 #include <stdio.h>
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
 /* print char */
 int	ft_putchar(char	c)
 {
@@ -13,7 +25,7 @@ int	ft_putchar(char	c)
 }
 
 /* print int number */
-int	ft_putnbr(int n)
+int	put_nbr(int n)
 {
 	int	i;
 
@@ -29,8 +41,8 @@ int	ft_putnbr(int n)
 		}
 		if (n >= 10)
 		{
-			i += ft_putnbr(n / 10);
-			i += ft_putnbr(n % 10);
+			i += put_nbr(n / 10);
+			i += put_nbr(n % 10);
 		}
 		if (n >= 0 && n <= 9)
 			i += ft_putchar(n + '0');
@@ -38,54 +50,38 @@ int	ft_putnbr(int n)
 	return (i);
 }
 
-/* print unsigned int */
-int	ft_putuint(unsigned int n)
+/* print unsigned int in any base */
+int	put_nbr_base_ui(unsigned int n, char *base)
 {
 	int	i;
+	int	base_len;
 
 	i = 0;
-	if (n >= 10)
+	base_len = ft_strlen(base);
+	if (n >= base_len)
 	{
-		i += ft_putuint(n / 10);
-		i += ft_putuint(n % 10);
+		i += put_nbr_base_ui(n / base_len, base);
+		i += put_nbr_base_ui(n % base_len, base);
 	}
-	if (n >= 0 && n <= 9)
-		i += ft_putchar(n + '0');
+	if (n < base_len)
+		i += ft_putchar(base[n]);
 	return (i);
 }
 
-/* print unsigned int in hex format */
-int	ft_put_hexlow(unsigned int n)
+int	put_nbr_base_long(unsigned long long n, char *base)
 {
 	int	i;
+	int	base_len;
 
 	i = 0;
-	if (n >= 16)
+	base_len = ft_strlen(base);
+	if (n >= base_len)
 	{
-		i += ft_put_hexlow(n / 16);
-		i += ft_put_hexlow(n % 16);
+		i += put_nbr_base_long(n / base_len, base);
+		i += put_nbr_base_long(n % base_len, base);
 	}
-	else if (n >= 0 && n < 10)
-		i += ft_putchar(n + '0');
-	else if (n >= 10 && n < 16)
-		i += ft_putchar(n + 87);
-	return (i);
-}
-
-int	ft_put_hexup(unsigned int n)
-{
-	int	i;
-
-	i = 0;
-	if (n >= 16)
-	{
-		i += ft_put_hexup(n / 16);
-		i += ft_put_hexup(n % 16);
-	}
-	else if (n >= 0 && n < 10)
-		i += ft_putchar(n + '0');
-	else if (n >= 10 && n < 16)
-		i += ft_putchar(n + 55);
+	if (n < base_len)
+		i += ft_putchar(base[n]);
 	return (i);
 }
 
@@ -126,8 +122,9 @@ int	ft_print_decimal(va_list args)
 	int	c;
 	int	i;
 
+	i = 0;
 	c = va_arg(args, int);
-	i = ft_putnbr(c);
+	i = put_nbr(c);
 	return (i);
 }
 
@@ -138,27 +135,31 @@ int	ft_print_uint(va_list args)
 
 	i = 0;
 	c = va_arg(args, unsigned int);
-	i = ft_putuint(c);
+	i = put_nbr_base_ui(c, "0123456789");
 	return(i);
 }
 
-int	ft_print_hexlow(va_list args)
+int	ft_print_hex(va_list args, const char c)
 {
 	unsigned int	n;
 	int				i;
 
+	i = 0;
 	n = va_arg(args, unsigned int);
-	i = ft_put_hexlow(n);
+	if (c == 'x')
+		i = put_nbr_base_ui(n, "0123456789abcdef");
+	else if (c == 'X')
+		i = put_nbr_base_ui(n, "0123456789ABCDEF");
 	return (i);
 }
 
-int	ft_print_hexup(va_list args)
+int	ft_print_pointer(va_list args)
 {
-	unsigned int	n;
-	int				i;
+	int	i;
+	void	*ptr;
 
-	n = va_arg(args, unsigned int);
-	i = ft_put_hexup(n);
+	ptr = va_arg(args, void *);
+	i = put_nbr_base_long((unsigned long long)ptr, "0123456789abcdef");
 	return (i);
 }
 
@@ -173,10 +174,10 @@ int	format_eval(const char c, va_list args)
 		return (ft_print_decimal(args));
 	if (c == 'u')
 		return (ft_print_uint(args));
-	if (c == 'x')
-		return (ft_print_hexlow(args));
-	if (c == 'X')
-		return (ft_print_hexup(args));
+	if (c == 'x' || c == 'X')
+		return (ft_print_hex(args, c));
+	if (c == 'p')
+		return (ft_print_pointer(args));
 	if (c == '%')
 		return(ft_putchar('%'));
 	return (0);
@@ -215,13 +216,4 @@ int	ft_printf(const char *format, ...)
 	ret = ft_vprintf(format, args);
 	va_end(args);
 	return (ret);
-}
-
-int	main()
-{
-	unsigned int	i;
-
-	i = -1;
-	ft_printf("%X", -15);
-	return (0);
 }
