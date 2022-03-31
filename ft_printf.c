@@ -24,61 +24,16 @@ int	ft_putchar(char	c)
 	return (i);
 }
 
-/* print int number */
-int	put_nbr(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n == -2147483648)
-		i = write(1, "-2147483648", 11);
-	else
-	{
-		if (n < 0)
-		{
-			i += ft_putchar('-');
-			n = -n;
-		}
-		if (n >= 10)
-		{
-			i += put_nbr(n / 10);
-			i += put_nbr(n % 10);
-		}
-		if (n >= 0 && n <= 9)
-			i += ft_putchar(n + '0');
-	}
-	return (i);
-}
-
-/* print unsigned int in any base */
-int	put_nbr_base_ui(unsigned int n, char *base)
+int	put_nbr_base(unsigned long n, char *base)
 {
 	int				i;
-	unsigned int	base_len;
+	unsigned long	base_len;
 
-	i = 0;
 	base_len = ft_strlen(base);
 	if (n >= base_len)
 	{
-		i += put_nbr_base_ui(n / base_len, base);
-		i += put_nbr_base_ui(n % base_len, base);
-	}
-	if (n < base_len)
-		i += ft_putchar(base[n]);
-	return (i);
-}
-
-int	put_nbr_base_long(unsigned long long n, char *base)
-{
-	int					i;
-	unsigned long long	base_len;
-
-	i = 12;
-	base_len = ft_strlen(base);
-	if (n >= base_len)
-	{
-		i += put_nbr_base_long(n / base_len, base);
-		i += put_nbr_base_long(n % base_len, base);
+		i += put_nbr_base(n / base_len, base);
+		i += put_nbr_base(n % base_len, base);
 	}
 	if (n < base_len)
 		i += ft_putchar(base[n]);
@@ -124,7 +79,7 @@ int	ft_print_decimal(va_list args)
 
 	i = 0;
 	c = va_arg(args, int);
-	i = put_nbr(c);
+	i = put_nbr_base(c, "0123456789");
 	return (i);
 }
 
@@ -135,7 +90,7 @@ int	ft_print_uint(va_list args)
 
 	i = 0;
 	c = va_arg(args, unsigned int);
-	i = put_nbr_base_ui(c, "0123456789");
+	i = put_nbr_base(c, "0123456789");
 	return(i);
 }
 
@@ -147,20 +102,20 @@ int	ft_print_hex(va_list args, const char c)
 	i = 0;
 	n = va_arg(args, unsigned int);
 	if (c == 'x')
-		i = put_nbr_base_ui(n, "0123456789abcdef");
+		i = put_nbr_base(n, "0123456789abcdef");
 	else if (c == 'X')
-		i = put_nbr_base_ui(n, "0123456789ABCDEF");
+		i = put_nbr_base(n, "0123456789ABCDEF");
 	return (i);
 }
 
 int	ft_print_pointer(va_list args)
 {
-	int	i;
+	int		i;
 	void	*ptr;
 
 	ptr = va_arg(args, void *);
 	i = write(1, "0x", 2);
-	i += put_nbr_base_long((unsigned long long)ptr, "0123456789abcdef");
+	i += put_nbr_base((unsigned long long)ptr, "0123456789abcdef");
 	return (i);
 }
 
