@@ -46,6 +46,7 @@ int	put_nbr(int n)
 		if (n >= 0 && n <= 9)
 			i += ft_putchar(n + '0');
 	}
+	return (i);
 }
 
 int	put_nbr_base(unsigned long n, char *base)
