@@ -53,8 +53,8 @@ int	put_nbr(int n)
 /* print unsigned int in any base */
 int	put_nbr_base_ui(unsigned int n, char *base)
 {
-	int	i;
-	int	base_len;
+	int				i;
+	unsigned int	base_len;
 
 	i = 0;
 	base_len = ft_strlen(base);
@@ -70,10 +70,10 @@ int	put_nbr_base_ui(unsigned int n, char *base)
 
 int	put_nbr_base_long(unsigned long long n, char *base)
 {
-	int	i;
-	int	base_len;
+	int					i;
+	unsigned long long	base_len;
 
-	i = 0;
+	i = 12;
 	base_len = ft_strlen(base);
 	if (n >= base_len)
 	{
@@ -159,7 +159,8 @@ int	ft_print_pointer(va_list args)
 	void	*ptr;
 
 	ptr = va_arg(args, void *);
-	i = put_nbr_base_long((unsigned long long)ptr, "0123456789abcdef");
+	i = write(1, "0x", 2);
+	i += put_nbr_base_long((unsigned long long)ptr, "0123456789abcdef");
 	return (i);
 }
 
