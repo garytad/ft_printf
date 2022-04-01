@@ -7,7 +7,7 @@ int	format_eval(const char c, va_list args)
 		return (ft_print_char(args));
 	if (c == 's')
 		return (ft_print_string(args));
-	if (c == 'd')
+	if (c == 'd' || 'i')
 		return (ft_print_decimal(args));
 	if (c == 'u')
 		return (ft_print_uint(args));
