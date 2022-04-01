@@ -16,6 +16,6 @@ int	format_eval(const char c, va_list args)
 	if (c == 'p')
 		return (ft_print_pointer(args));
 	if (c == '%')
-		return(ft_putchar_return_length('%'));
+		return (ft_putchar_return_length('%'));
 	return (0);
 }

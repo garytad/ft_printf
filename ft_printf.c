@@ -26,7 +26,7 @@ static int	ft_vprintf(const char *format, va_list args)
 /* printf format conversion function */
 int	ft_printf(const char *format, ...)
 {
-	va_list args;
+	va_list	args;
 	int		ret;
 
 	va_start(args, format);
