@@ -9,7 +9,8 @@ ft_print_string.c \
 ft_print_decimal.c \
 ft_print_hex.c \
 ft_print_pointer.c \
-ft_print_uint.c
+ft_print_uint.c \
+ft_vprintf.c
 
 OBJFILE = $(SRCFILE:.c=.o)
 
