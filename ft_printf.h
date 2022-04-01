@@ -7,6 +7,8 @@
 int	ft_printf(const char *format, ...);
 int	format_eval(const char c, va_list args);
 int	ft_print_char(va_list args);
+int	ft_print_string(va_list args);
+int	ft_print_uint(va_list args);
 int	ft_print_decimal(va_list args);
 int	ft_print_hex(va_list args, const char c);
 int	ft_print_pointer(va_list args);
