@@ -19,16 +19,16 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJFILE)
-ar rcs $@ $^
+	ar rcs $@ $^
 
 $(OBJFILE): $(SRCFILE)
-$(CC) -c $(CFLAGS) $^
+	$(CC) -c $(CFLAGS) $^
 
 clean:
-rm -f $(OBJFILE)
+	rm -f $(OBJFILE)
 
 fclean: clean
-rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
