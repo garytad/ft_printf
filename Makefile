@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 
-SRCFILE = ft_printf.c
+SRCFILE = ft_printf.c \
 format_eval.c \
 ft_putchar_return_length.c \
 put_nbr_return_length.c \
@@ -10,7 +10,7 @@ ft_print_string.c \
 ft_print_decimal.c \
 ft_print_hex.c \
 ft_print_pointer.c \
-ft_print_uint.c \
+ft_print_uint.c
 
 OBJFILE = $(SRCFILE:.c=.o)
 
