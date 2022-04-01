@@ -5,6 +5,7 @@
 # include <unistd.h>
 
 int	ft_printf(const char *format, ...);
+int	ft_vprintf(const char *format, va_list args);
 int	format_eval(const char c, va_list args);
 int	ft_print_char(va_list args);
 int	ft_print_string(va_list args);
